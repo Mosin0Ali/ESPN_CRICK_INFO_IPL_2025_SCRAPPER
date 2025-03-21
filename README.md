@@ -42,5 +42,5 @@ A powerful Python-based web scraper that extracts comprehensive cricket data fro
 When running TeamData.py if it fails try running cricbuzzscrap.py which will scrape from crickbuzz and map the data to ESPN's Players so you dont need to worry about data loss. But it has few params like caught and recent stats missing which are present in ESPN so you might need to handle them properly.
 
 # Disclaimer
-This project is for educational purposes only. Make sure to respect ESPN Cricinfo’s terms of service and use responsibly.
+This project is for educational purposes only. Make sure to respect ESPN Cricinfo’s & Crickbuzz terms of service and use responsibly.
 

@@ -1,6 +1,6 @@
-# ESPN-CRICKINFO-DATA-SCRAPPER-IPL2025
+# ESPN-CRICKINFO-DATA-SCRAPPER-IPL2025 (CRICKBUZZ INCLUDED)
 
-🏏 A powerful Python-based web scraper that extracts comprehensive cricket data from ESPN Cricinfo. Easily collect team data, player profiles, player statistics, and points tables for Indian Premier League 2025
+🏏 A powerful Python-based web scraper that extracts comprehensive cricket data from ESPN Cricinfo & Crickbuzz. Easily collect team data, player profiles, player statistics, and points tables for Indian Premier League 2025
 
 # Features
 
@@ -20,13 +20,17 @@
 Python 🐍
 Selenium
 
+# Installation
+ -- python -m venv espncrickinfoscrapper(or any name you want)
+ -- cd espncrickinfoscrapper
+ -- source bin/activate
+ -- pip install requirements.txt
+ -- python PointsTable.py
+ -- python TeamData.py
+
+# Crickbuzz Scrapping
+When running TeamData.py if it fails try running cricbuzzscrap.py which will scrape from crickbuzz and map the data to ESPN's Players so you dont need to worry about data loss. But it has few params like caught and recent stats missing which are present in ESPN so you might need to handle them properly.
+
 # Disclaimer
 This project is for educational purposes only. Make sure to respect ESPN Cricinfo’s terms of service and use responsibly.
 
-# Installation
-1. python -m venv espncrickinfoscrapper(or any name you want)
-2. cd espncrickinfoscrapper
-3. source bin/activate
-4. pip install requirements.txt
-5. python PointsTable.py
-6. python TeamData.py

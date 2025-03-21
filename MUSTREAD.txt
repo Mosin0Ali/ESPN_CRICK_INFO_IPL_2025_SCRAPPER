@@ -1,0 +1,13 @@
+
+1. PointsTable.py generates individual team folders and points table JSON file inside data folder.
+2. TeamData.py folder generates all players for individual team inside the folder created by PointsTable.py
+
+#################---------##################--------------##############---------#################
+3. First run PointsTable.py then run TeamData.py
+#################---------##################--------------##############---------#################
+
+4. Keep this in mind ESPNCRICKINFO uses Akamai and other services as their hosting servers which have 
+(throttling web request) and might block you from scraping data with a message Access Denied for
+1 minute 5 minutes 10 minutes and respectively for subsequent requests.
+
+STAY TUNED FOR UPDATES I AM WORKING ON CRICKINFO TO GENERATE PLAYER DATA

@@ -3,7 +3,7 @@
 A powerful Python-based web scraper that extracts comprehensive cricket data from ESPN Cricinfo & CrickBuzz. Easily collect **team data**, **player profiles**, **player statistics**, and **points tables** for the Indian Premier League 2025.
 
 ## Features
-- ✅ **Fixtures Data with Result**:
+- ✅ **Fixtures Data with Result**
 - ✅ **Team Data**: Get team details, squad lists, and player information.
 - ✅ **Player Profiles**: Extract player bios, career stats, batting & bowling records, and performance history.
 - ✅ **Player Stats**: Collect up-to-date match statistics, averages, rankings, and more.
@@ -35,7 +35,7 @@ A powerful Python-based web scraper that extracts comprehensive cricket data fro
 4. ```bash
    pip install requirements.txt
 5. ```bash
-   python PointsTable.py
+   python PointsTableFixtures.py
 6. ```bash
    python TeamData.py
 

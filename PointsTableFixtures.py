@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import json
 import os
-import sys
+
 team_data_url='https://www.espncricinfo.com/series/ipl-2025-1449924'
 
 options= webdriver.ChromeOptions()
@@ -19,6 +19,14 @@ try:
     team_content=json.loads(team_content)
  
     points_table=team_content['props']['appPageProps']['data']['content']['standings']['groups'][0]['teamStats']
+    today_fixture_url=team_data_url+'/match-schedule-fixtures-and-results'
+    driver.get(today_fixture_url)
+    driver.implicitly_wait(10)
+    fixture_content = driver.find_element(By.ID, "__NEXT_DATA__")
+    fixture_content = fixture_content.get_attribute('innerHTML')
+    fixture_content=json.loads(fixture_content)
+    total_fixtures=fixture_content['props']['appPageProps']['data']['content']['matches']
+    
     standings = []
     for t in points_table:
         team_slug = t['teamInfo']['longName'].replace(' ', '-')
@@ -79,7 +87,33 @@ try:
         with open(f"{team_data_folder}/{folder_name}.json", 'w') as f:
             json.dump(team_data, f)
         print(f'{team_folder} Team data generated ...')
-                
+        
+    fixtures = []
+    for f in total_fixtures:
+        fixture = {}
+    
+        fixture['date'] = f['startDate']
+
+        fixture['time'] = f['startTime'] 
+      
+        fixture['team1'] = f['teams'][0]['team']['longName']
+        fixture['team1_short'] = f['teams'][0]['team']['abbreviation']
+        fixture['team2'] = f['teams'][1]['team']['longName']
+        fixture['team2_short'] = f['teams'][1]['team']['abbreviation']
+     
+        fixture['ground'] = f.get('ground', {}).get('name', '')
+        fixture['ground_short'] = f.get('ground', {}).get('smallName', '')
+
+        if f.get('resultStatus') == 1:
+            fixture['winningText'] = f.get('statusText', '')
+        else:
+            fixture['winningText'] = ''
+        fixtures.append(fixture)
+        fixture_path=f"{data_path}/fixtures.json"
+        
+        with open(f"{fixture_path}", 'w') as f:
+            json.dump(fixtures, f)
+        print(f'{fixture_path} Fixture data generated ...')
 finally:
     driver.quit()
 

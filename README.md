@@ -1,4 +1,4 @@
-# ESPN-CRICKINFO-DATA-SCRAPPER-IPL2025 (CrickBuzz Included) 🏏
+# ESPN-CRICKINFO-DATA-SCRAPPER-IPL2025 🏏
 
 A powerful Python-Terminal-based web scraper that extracts comprehensive cricket data from ESPN Cricinfo. Easily collect **team data**, **player profiles**, **player statistics**, and **points tables** for the Indian Premier League 2025.
 

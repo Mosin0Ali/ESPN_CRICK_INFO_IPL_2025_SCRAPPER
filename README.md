@@ -22,15 +22,25 @@ A powerful Python-based web scraper that extracts comprehensive cricket data fro
 
 ## Installation
 
-1. Create a virtual environment:
+1. Follow the instructions:
    ```bash
-   python -m venv espncrickinfoscrapper  # (or any name you want)
-2. Activate venv:
+   git clone https://github.com/Mosin0Ali/ESPN_CRICK_INFO_IPL_2025_SCRAPPER.git
+   cd ESPN_CRICK_INFO_IPL_2025_SCRAPPER
+
+2. Create Environment:
    ```bash
-   cd espncrickinfoscrapper source bin/activate
-3. Run any file you want:
+   python -m venv espncrickinfoscrapper 
+   .\espncrickinfoscrapper\Scripts\activate  # For Windows
+   source espncrickinfoscrapper/bin/activate # For Linux/macOS
+
+3. Install Dependencies:
+   ```bash
+   pip install -r requirements.txt
+
+4. Run the Project :
    ```bash
    python points_table.py
+
 
 
 ## Disclaimer

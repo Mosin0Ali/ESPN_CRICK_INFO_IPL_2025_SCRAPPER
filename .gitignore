@@ -3,3 +3,4 @@
 /lib/
 pyvenv.cfg
 /__pycache__/
+.*

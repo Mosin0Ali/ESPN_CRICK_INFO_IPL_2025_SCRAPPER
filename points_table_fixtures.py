@@ -3,7 +3,6 @@ from selenium.webdriver.common.by import By
 import json
 import os
 
-
 team_data_url='https://www.espncricinfo.com/series/ipl-2025-1449924'
 options= webdriver.ChromeOptions()
 options.headless=False

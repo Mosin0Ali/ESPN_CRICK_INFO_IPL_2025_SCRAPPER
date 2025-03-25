@@ -5,7 +5,6 @@ import os
 import sys
 import traceback
 
-
 data_folder_path=f"data"
 
 def load_teams():

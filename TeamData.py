@@ -9,52 +9,61 @@ import traceback
 data_folder_path=f"data"
 
 def load_teams():
-    team_data_folder=f"{data_folder_path}/Team-Data"
-    files=[f for f in os.listdir(team_data_folder) if os.path.isfile(os.path.join(team_data_folder,f))]
+    team_data_folder = f"{data_folder_path}/Team-Data"
+    files = [f for f in os.listdir(team_data_folder) if os.path.isfile(os.path.join(team_data_folder, f))]
     
     if not files:
-        print("No files found.")
-        return None
-    
-    print("\nTeam List: \n")
-    for idx, file in enumerate(files,1):
-        print(f"{idx}.{file.replace('.json','').replace('-',' ')}")
+        print("No teams found.")
+        return None, None
     
     while True:
+        print("\nTeam List:\n")
+        for idx, file in enumerate(files, 1):
+            print(f"{idx}. {file.replace('.json', '').replace('-', ' ')}")
+        print(f"{len(files) + 1}. Exit")
+
         try:
-            choice= int(input("\n Enter team (number): "))
-            if 1<=choice<=len(files):
-                selected_file= os.path.join(team_data_folder,files[choice-1])
+            choice = int(input("\nEnter team (number): "))
+            if 1 <= choice <= len(files):
+                selected_file = os.path.join(team_data_folder, files[choice - 1])
                 team_name = files[choice - 1].replace('.json', '')
                 return selected_file, team_name
+            elif choice == len(files) + 1:
+                print("Exiting...")
+                sys.exit()
             else:
-                print("\n Invalid choice. Please select a valid number.")
+                print("\nInvalid choice. Please select a valid number.")
         except ValueError:
-            print("\n Please enter a valid number.")
-    
+            print("\nPlease enter a valid number.")  
 
 def load_players(team_file):
     try:
-        with open(team_file,"r") as f:
-            team_data=json.load(f)
-        players= team_data.get("players",[])
+        with open(team_file, "r") as f:
+            team_data = json.load(f)
+        
+        players = team_data.get("players", [])
         if not players:
-            print("\n No players found in this team:")
+            print("\nNo players found in this team.")
             return None
-        for idx, player in enumerate(players,1):
-            print(f"{idx}.{player['name']}")
+        
         while True:
+            print("\nPlayer List:\n")
+            for idx, player in enumerate(players, 1):
+                print(f"{idx}. {player['name']}")
+            print(f"{len(players) + 1}. Go back to team selection")
+
             try:
                 choice = int(input("\nEnter player (number): "))
                 if 1 <= choice <= len(players):
                     return players[choice - 1]
+                elif choice == len(players) + 1:
+                    return None
                 else:
                     print("\nInvalid choice. Please select a valid number.")
             except ValueError:
                 print("\nPlease enter a valid number.")
-            
     except Exception as e:
-        print(f"\n Error reading file :{e}")
+        print(f"\nError reading file: {e}")
         return None
 
 def format_and_save_player_data(data, team_name):
@@ -65,7 +74,7 @@ def format_and_save_player_data(data, team_name):
             3: 'T20I',
             6: 'T20s',
             5: 'List A',
-            6:'Other'
+            6:'IPL'
         }
 
         player_profile = data['player']
@@ -178,43 +187,36 @@ def format_and_save_player_data(data, team_name):
         traceback.print_exc()
         return False  
   
-selected_team_file,team_name = load_teams()
-if selected_team_file and team_name:
-    selected_player = load_players(selected_team_file)
-    if selected_player:
-        print("Loading player ....")
-        player_data_url = f"https://www.espncricinfo.com/cricketers/{selected_player['name'].lower().replace(' ', '-')}-{selected_player['id']}"
-        print(player_data_url)
-        options= webdriver.ChromeOptions()
-        options.headless=False
-        driver=webdriver.Chrome(options=options)
-        driver.get(player_data_url)
-        try:
-            player_content = driver.find_element(By.ID, "__NEXT_DATA__")
-            player_content = player_content.get_attribute('innerHTML')
-            player_content=json.loads(player_content)
-            player_content=player_content['props']['appPageProps']['data']
-            print('Writing data for '+ team_name)
-            format_and_save_player_data(player_content, team_name)
-            print("File written successfully !")
-            sys.exit()
-        except Exception as e:
-            print(f"Error fetching data for {player_data_url}: {e}")
-            sys.exit()
-        
-        
-        
-        
+while True:
+    selected_team_file, team_name = load_teams()
+    if selected_team_file and team_name:
+        while True:
+            selected_player = load_players(selected_team_file)
+            if selected_player:
+                print("Loading player ....")
+                player_data_url = f"https://www.espncricinfo.com/cricketers/{selected_player['name'].lower().replace(' ', '-')}-{selected_player['id']}"
+                print(player_data_url)
 
+                # Initialize WebDriver for each player selection
+                options = webdriver.ChromeOptions()
+                options.headless = False
+                driver = webdriver.Chrome(options=options)
 
+                try:
+                    driver.get(player_data_url)
+                    player_content = driver.find_element(By.ID, "__NEXT_DATA__").get_attribute('innerHTML')
+                    player_content = json.loads(player_content)['props']['appPageProps']['data']
 
+                    print(f'Writing data for {team_name}')
+                    format_and_save_player_data(player_content, team_name)
+                    print("File written successfully!\n")
 
-     
-           
-        
+                except Exception as e:
+                    print(f"Error fetching data for {player_data_url}: {e}")
 
+                finally:
+                    driver.quit()  # Ensure WebDriver quits after each player is processed
 
-    
-
-
+            else:
+                break 
 

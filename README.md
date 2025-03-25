@@ -1,6 +1,6 @@
 # ESPN-CRICKINFO-DATA-SCRAPPER-IPL2025 (CrickBuzz Included) 🏏
 
-A powerful Python-based web scraper that extracts comprehensive cricket data from ESPN Cricinfo & CrickBuzz. Easily collect **team data**, **player profiles**, **player statistics**, and **points tables** for the Indian Premier League 2025.
+A powerful Python-Terminal-based web scraper that extracts comprehensive cricket data from ESPN Cricinfo. Easily collect **team data**, **player profiles**, **player statistics**, and **points tables** for the Indian Premier League 2025.
 
 ## Features
 - ✅ **Fixtures Data with Result**
@@ -20,7 +20,6 @@ A powerful Python-based web scraper that extracts comprehensive cricket data fro
 ## Tech Stack
 - **Python** 🐍
 - **Selenium**
-- **BeautifulSoup**
 
 
 ## Installation
@@ -39,8 +38,7 @@ A powerful Python-based web scraper that extracts comprehensive cricket data fro
 6. ```bash
    python TeamData.py
 
-# Crickbuzz Scrapping
-When running TeamData.py if it fails try running cricbuzzscrap.py which will scrape from crickbuzz and map the data to ESPN's Players so you dont need to worry about data loss. But it has few params like caught and recent stats missing which are present in ESPN so you might need to handle them properly.
+
 
 # Disclaimer
 This project is for educational purposes only. Make sure to respect ESPN Cricinfo’s & Crickbuzz terms of service and use responsibly.

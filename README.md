@@ -7,7 +7,7 @@ A powerful Python-based web scraper that extracts comprehensive cricket data fro
 - ✅ **Player Profiles**: Extract player bios, career stats, batting & bowling records, and performance history.
 - ✅ **Player Stats**: Collect up-to-date match statistics, averages, rankings, and more.
 - ✅ **Points Table**: Scrape the latest tournament points tables with net run rates, matches played, wins/losses, etc.
-- ✅ **Supports Multiple Formats**: Works with Tests, ODIs, T20Is, and domestic leagues like IPL, BBL, PSL, etc.
+- ✅ **Supports Multiple Formats**: Works with Tests, ODIs, T20Is, and domestic leagues like IPL, ODI, T20s,T20I etc.
 - ✅ **Clean JSON Output**: Outputs well-structured JSON data ready for use in apps, dashboards, or analytics.
 
 ## Use Cases

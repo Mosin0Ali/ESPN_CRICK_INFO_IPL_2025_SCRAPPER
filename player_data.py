@@ -73,7 +73,6 @@ def format_and_save_player_data(data, team_name):
             3: 'T20I',
             6: 'T20s',
             5: 'List A',
-            6:'IPL'
         }
 
         player_profile = data['player']
@@ -96,6 +95,7 @@ def format_and_save_player_data(data, team_name):
 
         player = {
             'name': player_profile['longName'],
+            'photo': f"data/players/{player_profile['longName']}.jpg",
             'dob': f"{player_profile['dateOfBirth']['year']}-{player_profile['dateOfBirth']['month']}-{player_profile['dateOfBirth']['date']}",
             'batting_style': player_profile['longBattingStyles'][0] if player_profile['longBattingStyles'] else None,
             'bowling_style': player_profile['longBowlingStyles'][0] if player_profile['longBowlingStyles'] else None,
@@ -105,7 +105,6 @@ def format_and_save_player_data(data, team_name):
             'player_id': data['player']['objectId'],
             'debut_matches': debut_matches,
             'fielding_position': player_profile['fieldingStyles'][0] if player_profile['fieldingStyles'] else None,
-            'photo':player_profile['headshotImageUrl']
         }
        
         player_stats = data['content']['careerAverages']['stats']
@@ -125,6 +124,7 @@ def format_and_save_player_data(data, team_name):
                 'ground_big': recent['match']['ground']['name']
             }
             recent_performances.append(temp)
+        
 
         player['recent'] = recent_performances
 
@@ -169,8 +169,88 @@ def format_and_save_player_data(data, team_name):
                         'economy': stat['bwe']
                     })
                 temp_stat.setdefault(format_type, {})[stat_type] = temp
+        
+        league_data=data['content']['trophyStats']['trophies']
+        searchId = 117
+        result = [item for item in league_data if item['trophy']['id'] == searchId]
+        if result:
+            ipl_data = result[0]['stats']
+        else:
+            ipl_data = []
+
+        if ipl_data:
+            for stat in ipl_data:
+                temp = {}
+                format_ = 'IPL'
+                type_ = stat['type']
+                if type_ == 'BATTING':
+                    temp['matches'] = stat['mt']
+                    temp['innings'] = stat['in']
+                    temp['runs'] = stat['rn']
+                    temp['balls_faced'] = stat['bl']
+                    temp['average'] = stat['avg']
+                    temp['strike_rate'] = stat['sr']
+                    temp['notouts'] = stat['no']
+                    temp['fours'] = stat['fo']
+                    temp['sixes'] = stat['si']
+                    temp['highest_score'] = stat['hs']
+                    temp['hundreds'] = stat['hn']
+                    temp['fifties'] = stat['ft']
+                    temp['catches'] = stat['ct']
+                    temp['stumpings'] = stat['st']
+                elif type_ == 'BOWLING':
+                    temp['matches'] = stat['mt']
+                    temp['innings'] = stat['in']
+                    temp['runs_conceeded'] = stat['rn']
+                    temp['balls_bowled'] = stat['bl']
+                    temp['average'] = stat['avg']
+                    temp['strike_rate'] = stat['sr']
+                    temp['wickets'] = stat['wk']
+                    temp['best_figure'] = stat['bbi']
+                    temp['four_wickets'] = stat['fwk']
+                    temp['five_wickets'] = stat['fw']
+                    temp['ten_wickets'] = stat['tw']
+                    temp['economy'] = stat['bwe']
                 
+                if format_ not in temp_stat:
+                    temp_stat[format_] = {}
+                temp_stat[format_][type_] = temp
+        else:
+            temp_stat['IPL'] = {
+                'BATTING': {
+                    'matches': 0,
+                    'innings': 0,
+                    'runs': 0,
+                    'balls_faced': 0,
+                    'average': 0,
+                    'strike_rate': 0,
+                    'notouts': 0,
+                    'fours': 0,
+                    'sixes': 0,
+                    'highest_score': 0,
+                    'hundreds': 0,
+                    'fifties': 0,
+                    'catches': 0,
+                    'stumpings': 0
+                },
+                'BOWLING': {
+                    'matches': 0,
+                    'innings': 0,
+                    'runs_conceeded': 0,
+                    'balls_bowled': 0,
+                    'average': 0,
+                    'strike_rate': 0,
+                    'wickets': 0,
+                    'best_figure': 0,
+                    'four_wickets': 0,
+                    'five_wickets': 0,
+                    'ten_wickets': 0,
+                    'economy': 0
+                }
+            }
+        
         player['stats'] = temp_stat
+        
         player_json = json.dumps(player)
         folder = os.path.join('data', team_name)
         os.makedirs(folder, exist_ok=True)
@@ -205,7 +285,6 @@ while True:
                     driver.get(player_data_url)
                     player_content = driver.find_element(By.ID, "__NEXT_DATA__").get_attribute('innerHTML')
                     player_content = json.loads(player_content)['props']['appPageProps']['data']
-
                     print(f'Writing data for {team_name}')
                     format_and_save_player_data(player_content, team_name)
                     print("File written successfully!\n")
